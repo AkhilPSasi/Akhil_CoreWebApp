@@ -1,0 +1,52 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<ul id="product-list">
+</ul>
+@section scripts{
+    <script>
+        var token = "";
+        //$.ajax({
+        //    type: "POST",
+        //    headers: {
+        //        //'Accept': 'application/json',
+        //        'Content-Type': 'application/json'
+        //    },
+        //    url: "https://localhost:7152/api/Token/login",
+        //    data: `{
+        //               "Email": "akhilpss9@gmail.com",
+        //               "Password": "Akhil@12345"
+        //        }`,
+        //    success: function (result) {
+        //        token = result.token;
+        //    },
+        //    dataType: "json"
+        //});
+
+        let url = "https://localhost:7007/api/v1.0/Product/products";
+        let productlist = document.getElementById("product-list");
+        fetch(url, {
+            //headers: new Headers({
+            //    'Authorization': `Bearer ${token}`
+            //})
+        })
+            .then(response => response.json())
+            .then(data => showProducts(data))
+            .catch(ex => {
+                alert("Error !");
+                console.log(ex);
+            });
+        function showProducts(products) {
+            products.forEach(product => {
+                let li = document.createElement("li");
+                let text = `${product.name} (\$${product.price})`;
+                li.appendChild(document.createTextNode(text));
+                productlist.appendChild(li);
+            })
+        }
+    </script>
+
+}
